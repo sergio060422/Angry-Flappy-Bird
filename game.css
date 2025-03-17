@@ -1,0 +1,48 @@
+* {
+  margin: 0px;
+  overflow: hidden;
+}
+#player {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  transform: translateX(-50%);
+}
+body {
+  overflow: hidden;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: url("Images/147955.png");
+ 
+}
+@keyframes jump {
+  0% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(-45deg)
+    
+  }
+}
+#player.jump {
+  animation-name: jump;
+  animation-duration: 0.2s;
+}
+.col, .col2{
+  position: absolute;
+  width: 70px;
+  height: 10%;
+  bottom: 0px;
+  background-image: url("Images/Toons_Wood_Block.png");
+  background-size: 35px;
+ 
+}
+.col2 {
+  top: 0px;
+  height: 40%;
+  background-position: left bottom;
+}
+
