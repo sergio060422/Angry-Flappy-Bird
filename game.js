@@ -4,6 +4,8 @@ function main(){
   let p = bd.getBoundingClientRect();
   bd.style.backgroundSize = "100% "+p.height+"px";
   let st = document.getElementById("start");
+  let dst = document.getElementById("dst");
+  let ini = document.getElementById("ini");
   let flag = 0, cJump = 0, cFall = 0, iFall, iJump;
   
   function colissions(x1, y1, x2, y2, flag, hg){
@@ -37,7 +39,7 @@ function main(){
           pf = ft.getBoundingClientRect();
           pc = sc.getBoundingClientRect();
           if (colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
-            //return;
+            window.location.reload();
           }
         }
      }
@@ -73,7 +75,7 @@ function main(){
           pf = ft.getBoundingClientRect();
           pc = sc.getBoundingClientRect();
           if (colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
-            //return;
+            window.location.reload();
           }
         }
       }
@@ -205,8 +207,9 @@ function main(){
   }
   function start(){
       player.style.display = "block";
-      bd.style.backgroundImage = "url(Images/147955.png)";
-      st.style.display = "none";
+      bd.style.backgroundImage = "url(Images/sky.jpg)";
+      bd.style.backgroundSize = "initial";
+      ini.style.display = "none";
       makeCol();
       onFall();
       difficulty();

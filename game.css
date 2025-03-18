@@ -49,11 +49,23 @@ body {
   background-position: left bottom;
 }
 #start {
-  position: absolute;
   width: 100px;
   height: 100px;
+}
+#dst {
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
+}
+h1 {
+  text-align: center;
+}
+#logo {
+  width: 85%;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  
 }
