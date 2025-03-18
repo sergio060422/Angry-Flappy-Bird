@@ -2,7 +2,8 @@ function main(){
   let player = document.getElementById("player");
   let bd = document.getElementById("body");
   let p = bd.getBoundingClientRect();
-  
+  bd.style.backgroundSize = "100% "+p.height+"px";
+  let st = document.getElementById("start");
   let flag = 0, cJump = 0, cFall = 0, iFall, iJump;
   
   function colissions(x1, y1, x2, y2, flag, hg){
@@ -202,11 +203,20 @@ function main(){
     }, 1200);
     
   }
-  makeCol();
-  onFall();
-  difficulty();
+  function start(){
+      player.style.display = "block";
+      bd.style.backgroundImage = "url(Images/147955.png)";
+      st.style.display = "none";
+      makeCol();
+      onFall();
+      difficulty();
   
-  document.addEventListener("click", onJump)
+      document.addEventListener("click", onJump);
+  }
+
+  st.addEventListener("click", start);
+  
+
 
 }
 window.addEventListener("load", main);

@@ -9,13 +9,16 @@
   left: 10%;
   top: 50%;
   transform: translateX(-50%);
+  display: none;
 }
 body {
   overflow: hidden;
   position: absolute;
   height: 100%;
   width: 100%;
-  background-image: url("Images/147955.png");
+  background-image: url("Images/c4cdedac82863f5b29c75a56dc4ddeeb~2.jpg");
+
+
  
 }
 @keyframes jump {
@@ -45,4 +48,12 @@ body {
   height: 40%;
   background-position: left bottom;
 }
+#start {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
+}
