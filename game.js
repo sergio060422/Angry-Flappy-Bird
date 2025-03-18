@@ -2,11 +2,11 @@ function main(){
   let player = document.getElementById("player");
   let bd = document.getElementById("body");
   let p = bd.getBoundingClientRect();
-  bd.style.backgroundSize = "100% "+p.height+"px";
+  //bd.style.backgroundSize = "100% "+p.height+"px";
   let st = document.getElementById("start");
   let dst = document.getElementById("dst");
   let ini = document.getElementById("ini");
-  let flag = 0, cJump = 0, cFall = 0, iFall, iJump;
+  let flag = 0, cJump = 0, cFall = 0, iFall, iJump, gover = 0;
   
   function colissions(x1, y1, x2, y2, flag, hg){
     if(flag){
@@ -22,6 +22,9 @@ function main(){
     return 0;
   }
   function setFall(){
+     if(gover){
+       return;
+     }
      let pos = player.getBoundingClientRect();
      if(cols.length){
         let ft = document.getElementById(cols[0][0]);
@@ -39,7 +42,10 @@ function main(){
           pf = ft.getBoundingClientRect();
           pc = sc.getBoundingClientRect();
           if (colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
+            stop();
+            gover = 1;
             window.location.reload();
+            return;
           }
         }
      }
@@ -47,6 +53,15 @@ function main(){
        return;
      }
      player.style.top = pos.top + 1.2 + "px";
+  }
+  function stop() {
+    player.style.display = "none";
+    for(let i = 0; i < cols.length; i++){
+      let col1 = document.getElementById(cols[i][0]);
+      let col2 = document.getElementById(cols[i][1]);
+      col1.style.display = "none";
+      col2.style.display = "none";
+    }
   }
   function onFall(){
      iFall = setInterval(setFall, 1);
@@ -56,6 +71,9 @@ function main(){
     cFall = 0;
   }
   function setJump(){
+    if(gover){
+      return;
+    }
     if(cJump < 60){
       let pos = player.getBoundingClientRect();
      if(cols.length){
@@ -75,7 +93,10 @@ function main(){
           pf = ft.getBoundingClientRect();
           pc = sc.getBoundingClientRect();
           if (colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
+            stop();
+            gover = 1;
             window.location.reload();
+            return;
           }
         }
       }
