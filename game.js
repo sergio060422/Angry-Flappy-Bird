@@ -2,11 +2,15 @@ function main(){
   let player = document.getElementById("player");
   let bd = document.getElementById("body");
   let p = bd.getBoundingClientRect();
-  //bd.style.backgroundSize = "100% "+p.height+"px";
+  let pig = document.createElement('img');
+  pig.className = "pig";
+  pig.src = "Images/pork.png";
+  //bd.style.background
   let st = document.getElementById("start");
   let dst = document.getElementById("dst");
   let ini = document.getElementById("ini");
-  let flag = 0, cJump = 0, cFall = 0, iFall, iJump, gover = 0;
+  
+  let flag = 0, cJump = 0, cFall = 0, iFall, iJump, gover = 0, score = 0;
   
   function colissions(x1, y1, x2, y2, flag, hg){
     if(flag){
@@ -20,6 +24,32 @@ function main(){
       }
     }
     return 0;
+  }
+  function porkCol(){
+     pos = player.getBoundingClientRect();
+     for (let i = 0; i < cols.length; i++) {
+          let ft = document.getElementById(cols[i][0]);
+          let sc = document.getElementById(cols[i][1]);
+          let pf = ft.getBoundingClientRect();
+          let pc = sc.getBoundingClientRect();
+          if (cols[i][2] != 0) {
+            if (gp(pos.left, pos.top, pf.left, pf.top - 70)) {
+            
+              let point = document.createElement('img');
+              let pork = document.getElementById(cols[i][2]);
+              pork.remove();
+              cols[i][2] = 0;
+              point.className = "point";
+              point.src = "Images/point.png";
+              point.style.top = pf.top - 52 + "px";
+              point.style.left = pf.left + "px";
+              bd.appendChild(point);
+              setTimeout(function() {
+                point.remove();
+              }, 500);
+            }
+          }
+      }
   }
   function setFall(){
      if(gover){
@@ -36,19 +66,14 @@ function main(){
           ft.remove();
           sc.remove();
         }
-        for(let i = 0; i < cols.length; i++){
-          ft = document.getElementById(cols[0][0]);
-          sc = document.getElementById(cols[0][1]);
-          pf = ft.getBoundingClientRect();
-          pc = sc.getBoundingClientRect();
-          if (colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
+        if(colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
             stop();
             gover = 1;
             window.location.reload();
             return;
           }
         }
-     }
+    
      if (pos.top + 50 > bd.offsetHeight) {
        return;
      }
@@ -70,6 +95,12 @@ function main(){
     clearInterval(iFall);
     cFall = 0;
   }
+  function gp(x1, y1, x2, y2){
+    if(x2 + 70 >= x1 + 50 && x1 + 50 >= x2 && y1 + 50 >= y2){
+      return 1;
+    }
+    return 0;
+  }
   function setJump(){
     if(gover){
       return;
@@ -87,11 +118,7 @@ function main(){
           ft.remove();
           sc.remove();
         }      
-        for(let i = 0; i < cols.length; i++){
-          ft = document.getElementById(cols[0][0]);
-          sc = document.getElementById(cols[0][1]);
-          pf = ft.getBoundingClientRect();
-          pc = sc.getBoundingClientRect();
+        
           if (colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
             stop();
             gover = 1;
@@ -99,7 +126,7 @@ function main(){
             return;
           }
         }
-      }
+      
       if(pos.top - 2.5 < 0){
         offJump();
         return;
@@ -152,6 +179,7 @@ function main(){
   
   function difficulty(){
     setInterval(function (){
+      console.log(score);
       if(maxSize < 60){
         maxSize++;
       }
@@ -165,6 +193,10 @@ function main(){
         ldf++;
       }
     }, 1000);
+  }
+  function updScore(){
+    score++;
+    
   }
   function rand(l, r){
     return Math.floor(Math.random() * (r - l + 1) + l);
@@ -185,6 +217,7 @@ function main(){
     let createCol = setInterval(function (){
       let col1 = document.createElement('div');
       let col2 = document.createElement('div');
+      
       let k = p.width; 
       
       if(bfh){
@@ -211,7 +244,7 @@ function main(){
       col2.className = "col2";
       col1.id = colId + "";
       col2.id = colId + 1;
-      cols.push([colId + "", colId + 1 + ""]);
+      cols.push([colId + "", colId + 1 + "", colId + "p"]);
       colId+=2;
       colId%=100;
       col1.style.left = col2.style.left = p.width + "px";
@@ -221,8 +254,18 @@ function main(){
       bd.appendChild(col1);
       bd.appendChild(col2);
       col1.style.animationTimingFunction = "linear";
+      let prob = rand(1, 5);
+      if(prob == 1 || prob == 2){
+         let pg = pig.cloneNode();
+         pg.id = colId - 2 + "p";
+         pg.style.top = (p.height * (100 - rd)) / 100 - 52 + "px";
+         pg.style.left = p.width + "px";
+         bd.appendChild(pg);
+         pg.animate(mv, config);
+      }
       col1.animate(mv, config);
       col2.animate(mv, config);
+      
     }, 1200);
     
   }
@@ -234,13 +277,14 @@ function main(){
       makeCol();
       onFall();
       difficulty();
-  
+      setInterval(porkCol, 20);
+      //setInterval(updScore, 10);
       document.addEventListener("click", onJump);
   }
 
   st.addEventListener("click", start);
   
 
-
 }
+
 window.addEventListener("load", main);

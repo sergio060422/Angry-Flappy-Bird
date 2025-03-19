@@ -26,7 +26,6 @@ body {
   }
   100% {
     transform: rotate(-45deg)
-    
   }
 }
 #player.jump {
@@ -38,14 +37,15 @@ body {
   width: 70px;
   height: 10%;
   bottom: 0px;
-  background-image: url("Images/Toons_Wood_Block.png");
-  background-size: 35px;
+  background-image: url("Images/1000068527-removebg-preview.png");
+ background-size: 70px;
  
 }
 .col2 {
   top: 0px;
   height: 40%;
   background-position: left bottom;
+  background-image: url("Images/1000068557-removebg-preview.png")
 }
 #start {
   height: 150px;
@@ -95,4 +95,11 @@ h1 {
   100%{
     scale: 1;
   }
+}
+.pig, .point{
+  width: 70px;
+  position: absolute;
+}
+#pig0{
+  display: none;
 }
