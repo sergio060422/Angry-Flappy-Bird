@@ -84,8 +84,10 @@ function main(){
     for(let i = 0; i < cols.length; i++){
       let col1 = document.getElementById(cols[i][0]);
       let col2 = document.getElementById(cols[i][1]);
+      let pork = document.getElementById(cols[i][2]);
       col1.style.display = "none";
       col2.style.display = "none";
+      //pork.style.display = "none";
     }
   }
   function onFall(){
@@ -281,7 +283,6 @@ function main(){
       //setInterval(updScore, 10);
       document.addEventListener("click", onJump);
   }
-
   st.addEventListener("click", start);
   
 
