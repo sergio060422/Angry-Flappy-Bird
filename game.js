@@ -3,14 +3,16 @@ function main(){
   let bd = document.getElementById("body");
   let p = bd.getBoundingClientRect();
   let pig = document.createElement('img');
+  let game = document.getElementById("game");
   pig.className = "pig";
   pig.src = "Images/pork.png";
   //bd.style.background
   let st = document.getElementById("start");
   let dst = document.getElementById("dst");
+  let scoreCt = document.getElementById("scoreCt");
   let ini = document.getElementById("ini");
-  
-  let flag = 0, cJump = 0, cFall = 0, iFall, iJump, gover = 0, score = 0;
+  let got = document.getElementById("got");
+  let flag = 0, cJump = 0, cFall = 0, iFall, iJump, iScore, createCol, gover = 0, score = 0, record = 0;
   
   function colissions(x1, y1, x2, y2, flag, hg){
     if(flag){
@@ -26,24 +28,32 @@ function main(){
     return 0;
   }
   function porkCol(){
+     if(gover){
+       return;
+     }
      pos = player.getBoundingClientRect();
      for (let i = 0; i < cols.length; i++) {
           let ft = document.getElementById(cols[i][0]);
           let sc = document.getElementById(cols[i][1]);
           let pf = ft.getBoundingClientRect();
           let pc = sc.getBoundingClientRect();
-          if (cols[i][2] != 0) {
+          if (cols[i][2] != 0 && !gover) {
             if (gp(pos.left, pos.top, pf.left, pf.top - 70)) {
             
               let point = document.createElement('img');
               let pork = document.getElementById(cols[i][2]);
-              pork.remove();
+              if(pork == null){
+                return;
+              }
+              pork.style.display = "none";
               cols[i][2] = 0;
               point.className = "point";
               point.src = "Images/point.png";
               point.style.top = pf.top - 52 + "px";
               point.style.left = pf.left + "px";
-              bd.appendChild(point);
+              game.appendChild(point);
+              score += 100;
+              scoreCt.animate(scoreAnim, config2);
               setTimeout(function() {
                 point.remove();
               }, 500);
@@ -69,7 +79,6 @@ function main(){
         if(colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
             stop();
             gover = 1;
-            window.location.reload();
             return;
           }
         }
@@ -80,15 +89,48 @@ function main(){
      player.style.top = pos.top + 1.2 + "px";
   }
   function stop() {
-    player.style.display = "none";
+    clearInterval(iScore);
+    cols = [];
     for(let i = 0; i < cols.length; i++){
       let col1 = document.getElementById(cols[i][0]);
       let col2 = document.getElementById(cols[i][1]);
       let pork = document.getElementById(cols[i][2]);
-      col1.style.display = "none";
-      col2.style.display = "none";
-      //pork.style.display = "none";
+      //col1.style.display = col2.style.display = pork.style.display = "none";
+      
     }
+    clearInterval(createCol);
+    game.style.display = "none";
+    
+    gameover();
+  }
+  function gameover(){
+    clearInterval(porkCol);
+    clearInterval(iJump);
+    clearInterval(iFall);
+    clearInterval(iScore);
+    clearInterval(porkCol);
+    document.removeEventListener("click", onJump);
+    let curr = document.getElementById("currScore");
+    let best = document.getElementById("bestScore");
+    let rst = document.getElementById("rst");
+    record = mx(record, score);
+    curr.textContent = "Your score: "+ score;
+    if(record == score){
+      best.textContent = "🎉New Record!🎉"
+    }
+    else {
+      best.textContent = "Your best: "+ record;
+    }
+    got.style.display = "block";
+    rst.addEventListener("click", rGame);
+  }
+  function rGame(){
+    got.style.display = "none";
+    player.style.top = "50%";
+    score = -1;
+    gover = 0;
+    start();
+   
   }
   function onFall(){
      iFall = setInterval(setFall, 1);
@@ -120,11 +162,9 @@ function main(){
           ft.remove();
           sc.remove();
         }      
-        
-          if (colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
+        if (colissions(pos.left, pos.top, pc.left, pc.top, 1, sc.offsetHeight) || colissions(pos.left, pos.top, pf.left, pf.top, 0, sc.offsetHeight)) {
             stop();
             gover = 1;
-            window.location.reload();
             return;
           }
         }
@@ -176,12 +216,21 @@ function main(){
     fillmode: "Forwards",
     delay: 200
   }
-  
+  const scoreAnim = [
+    {opacity: 0.5},
+    {opacity: 0},
+    {opacity: 0.5},
+    {opacity: 1}
+  ];
+  const config2 = {
+    duration: 1000,
+    iterations: 1,
+    
+  };
   let maxSize = 45, op = 45, bfh = 0, diff = 10, ldf = 1;
   
   function difficulty(){
     setInterval(function (){
-      console.log(score);
       if(maxSize < 60){
         maxSize++;
       }
@@ -198,7 +247,7 @@ function main(){
   }
   function updScore(){
     score++;
-    
+    scoreCt.textContent = score;
   }
   function rand(l, r){
     return Math.floor(Math.random() * (r - l + 1) + l);
@@ -216,7 +265,10 @@ function main(){
     return b;
   }
   function makeCol(){
-    let createCol = setInterval(function (){
+    createCol = setInterval(function (){
+      if(gover){
+        return;
+      }
       let col1 = document.createElement('div');
       let col2 = document.createElement('div');
       
@@ -253,8 +305,8 @@ function main(){
       col1.style.height = rd + "%";
       col2.style.height = 100 - (rd + op) + "%";
       bfh = rd;
-      bd.appendChild(col1);
-      bd.appendChild(col2);
+      game.appendChild(col1);
+      game.appendChild(col2);
       col1.style.animationTimingFunction = "linear";
       let prob = rand(1, 5);
       if(prob == 1 || prob == 2){
@@ -262,7 +314,7 @@ function main(){
          pg.id = colId - 2 + "p";
          pg.style.top = (p.height * (100 - rd)) / 100 - 52 + "px";
          pg.style.left = p.width + "px";
-         bd.appendChild(pg);
+         game.appendChild(pg);
          pg.animate(mv, config);
       }
       col1.animate(mv, config);
@@ -272,7 +324,7 @@ function main(){
     
   }
   function start(){
-      player.style.display = "block";
+      game.style.display = "block";
       bd.style.backgroundImage = "url(Images/sky.jpg)";
       bd.style.backgroundSize = "initial";
       ini.style.display = "none";
@@ -280,7 +332,7 @@ function main(){
       onFall();
       difficulty();
       setInterval(porkCol, 20);
-      //setInterval(updScore, 10);
+      iScore = setInterval(updScore, 50);
       document.addEventListener("click", onJump);
   }
   st.addEventListener("click", start);

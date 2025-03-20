@@ -1,6 +1,7 @@
 * {
   margin: 0px;
   overflow: hidden;
+  z-index: 0;
 }
 #player {
   width: 50px;
@@ -9,7 +10,6 @@
   left: 10%;
   top: 50%;
   transform: translateX(-50%);
-  display: none;
 }
 body {
   overflow: hidden;
@@ -102,4 +102,70 @@ h1 {
 }
 #pig0{
   display: none;
+}
+#scoreboard{
+  text-align: center;
+  width: fit-content;
+  border-style: solid;
+  border-radius: 10px;
+  background-color: darkcyan;
+  padding: 10px;
+  position: absolute;
+  right: 0px;
+  margin: 5px;
+  z-index: 1;
+}
+h1 {
+  font-size: 28px;
+}
+#scoreCt {
+  font-size: 22px;
+}
+#game {
+  display: none;
+}
+@keyframes paperAnim {
+  0%{
+    scale:0;
+  }
+  100%{
+    scale:1;
+  }
+}
+@keyframes appear {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+#got {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: none;
+}
+#gv{
+  font-size: 48px;
+  animation-name: paperAnim;
+  animation-duration: 1.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+}
+#currScore, #bestScore, #rst {
+  font-size: 24px;
+  opacity: 0;
+  animation-name: appear;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-delay: 1.5s;
+  animation-fill-mode: forwards;
+}
+#rst {
+  animation-delay: 1.5s;
+  width: 50px;
 }
