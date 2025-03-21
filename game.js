@@ -91,16 +91,8 @@ function main(){
   function stop() {
     clearInterval(iScore);
     cols = [];
-    for(let i = 0; i < cols.length; i++){
-      let col1 = document.getElementById(cols[i][0]);
-      let col2 = document.getElementById(cols[i][1]);
-      let pork = document.getElementById(cols[i][2]);
-      //col1.style.display = col2.style.display = pork.style.display = "none";
-      
-    }
     clearInterval(createCol);
     game.style.display = "none";
-    
     gameover();
   }
   function gameover(){
@@ -129,8 +121,8 @@ function main(){
     player.style.top = "50%";
     score = -1;
     gover = 0;
+    maxSize = 45, op = 45, bfh = 0, diff = 10, ldf = 1;
     start();
-   
   }
   function onFall(){
      iFall = setInterval(setFall, 1);
