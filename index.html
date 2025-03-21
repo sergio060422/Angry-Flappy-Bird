@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>flappy game</title>
   <link rel="stylesheet" href="game.css">
+
   <script src="game.js"></script>
 </head>
 
@@ -19,9 +20,22 @@
     <img id="start" src="Images/424f24ce63087ba2e7a57b111c8b440e07a8d4f8_2_1024x1024.png">
   </div>
   </div>
-  <img id="player" src="Images/Red.png">
-  <img id="pig0" src="Images/83-834739_angry-bird-pig-picture-pig-from-angry-birds.png" class="pig">
-  
+  <div>
+  <div id="game">
+    <div id="scoreboard">
+     <h1>•SCORE•</h1>
+     <hr>
+     <label id="scoreCt">0000</label>
+   </div>
+   <img id="player" src="Images/Red.png">
+   <img id="pig0" src="Images/83-834739_angry-bird-pig-picture-pig-from-angry-birds.png" class="pig">
+  </div>
+  <div id="got">
+    <p id="gv">GAME OVER!</p>
+    <p id="currScore"></p>
+    <p id="bestScore"></p>
+    <img src="Images/restart.svg" id="rst">
+  </div>
 </body>
 
 </html>
