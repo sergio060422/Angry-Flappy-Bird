@@ -10,6 +10,7 @@
   left: 10%;
   top: 50%;
   transform: translateX(-50%);
+  animation-fill-mode: forwards;
 }
 body {
   overflow: hidden;
@@ -168,4 +169,13 @@ h1 {
 #rst {
   animation-delay: 1.5s;
   width: 50px;
+}
+#gt {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#gti {
+  height: 50px;
 }

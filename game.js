@@ -12,6 +12,7 @@ function main(){
   let scoreCt = document.getElementById("scoreCt");
   let ini = document.getElementById("ini");
   let got = document.getElementById("got");
+  let gt = document.getElementById("gti");
   let flag = 0, cJump = 0, cFall = 0, iFall, iJump, iScore, createCol, gover = 0, score = 0, record = 0;
   
   function colissions(x1, y1, x2, y2, flag, hg){
@@ -172,6 +173,7 @@ function main(){
       offJump();
     }
   }
+  
   function animation(){
     let k = 0;
     let myinterval = setInterval(function rot(){
@@ -327,8 +329,11 @@ function main(){
       iScore = setInterval(updScore, 50);
       document.addEventListener("click", onJump);
   }
+  function gogit(){
+    window.location.replace("github.com");
+  }
   st.addEventListener("click", start);
-  
+  gt.addEventListener("click", gogit);
 
 }
 
